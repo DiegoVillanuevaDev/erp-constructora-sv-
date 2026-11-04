@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: erp_sv_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-erp_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-erp_constructora_sv_2026_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-erp_constructora_sv_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_erp_data:/var/lib/postgresql/data
+    networks:
+      - erp_sv_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-erp_admin} -d ${POSTGRES_DB:-erp_constructora_sv_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: erp_sv_backend
+    restart: unless-stopped
+    env_file:
+      - .env.example
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-erp_admin}:${POSTGRES_PASSWORD:-erp_constructora_sv_2026_secret}@postgres:5432/${POSTGRES_DB:-erp_constructora_sv_db}?schema=public
+    expose:
+      - "4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - erp_sv_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: erp_sv_frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE_URL: /api/v1
+    expose:
+      - "5173"
+    depends_on:
+      - backend
+    networks:
+      - erp_sv_network
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: erp_sv_nginx_proxy
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PUBLIC_PORT:-8080}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - erp_sv_network
+
+volumes:
+  postgres_erp_data:
+    driver: local
+
+networks:
+  erp_sv_network:
+    driver: bridge
+
