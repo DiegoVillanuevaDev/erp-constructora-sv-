@@ -4,6 +4,7 @@ const authRoutes = require('./modules/auth/auth.routes');
 const proyectosRoutes = require('./modules/proyectos/proyectos.routes');
 const bodegasRoutes = require('./modules/bodegas/bodegas.routes');
 const partidasRoutes = require('./modules/partidas/partidas.routes');
+const planillasRoutes = require('./modules/planillas/planillas.routes');
 const { notFoundHandler, errorHandler } = require('./middlewares/error.middleware');
 
 const app = express();
@@ -29,6 +30,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/proyectos', proyectosRoutes);
 app.use('/api/v1/bodegas', bodegasRoutes);
 app.use('/api/v1/partidas', partidasRoutes);
+app.use('/api/v1/planillas', planillasRoutes);
 
 // Manejo de rutas inexistentes (404) y manejador centralizado de errores
 app.use(notFoundHandler);
