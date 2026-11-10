@@ -1,7 +1,5 @@
-const { prismaMock } = require('../helpers/prismaMock');
-
 // Aislar cualquier importación de PrismaClient hacia el mock en memoria
-jest.mock('../../src/config/prisma', () => prismaMock);
+jest.mock('../../src/config/prisma', () => require('../helpers/prismaMock').prismaMock);
 
 const {
   calcularEstadoRegulatorio,

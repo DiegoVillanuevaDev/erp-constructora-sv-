@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../../src/middlewares/auth.middleware');
+
+const JWT_SECRET =
+  process.env.JWT_SECRET || 'erp_constructora_sv_jwt_secret_key_2026_production_grade';
 
 /**
  * Usuarios semilla en memoria para los 6 roles oficiales del ERP Constructora SV.

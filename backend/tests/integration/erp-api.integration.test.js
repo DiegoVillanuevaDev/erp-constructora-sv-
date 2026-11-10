@@ -6,7 +6,7 @@ const {
 } = require('../helpers/prismaMock');
 
 // Interceptar PrismaClient antes de cargar la aplicación Express
-jest.mock('../../src/config/prisma', () => prismaMock);
+jest.mock('../../src/config/prisma', () => require('../helpers/prismaMock').prismaMock);
 
 const app = require('../../src/app');
 

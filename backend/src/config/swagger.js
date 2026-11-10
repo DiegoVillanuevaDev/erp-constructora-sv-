@@ -3478,5 +3478,9 @@ const swaggerSpec = {
   },
 };
 
+Object.defineProperty(swaggerSpec, 'swaggerSpec', {
+  value: swaggerSpec,
+  enumerable: false,
+});
+
 module.exports = swaggerSpec;
-module.exports.swaggerSpec = swaggerSpec;
