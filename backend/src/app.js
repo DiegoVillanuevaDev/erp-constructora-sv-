@@ -1,6 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./modules/auth/auth.routes');
+const proyectosRoutes = require('./modules/proyectos/proyectos.routes');
+const bodegasRoutes = require('./modules/bodegas/bodegas.routes');
+const partidasRoutes = require('./modules/partidas/partidas.routes');
+const planillasRoutes = require('./modules/planillas/planillas.routes');
+const ventasRoutes = require('./modules/ventas/ventas.routes');
 const { notFoundHandler, errorHandler } = require('./middlewares/error.middleware');
 
 const app = express();
@@ -23,6 +28,11 @@ app.get('/api/v1/health', (req, res) => {
 
 // Registro de módulos de rutas REST v1
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/proyectos', proyectosRoutes);
+app.use('/api/v1/bodegas', bodegasRoutes);
+app.use('/api/v1/partidas', partidasRoutes);
+app.use('/api/v1/planillas', planillasRoutes);
+app.use('/api/v1/ventas', ventasRoutes);
 
 // Manejo de rutas inexistentes (404) y manejador centralizado de errores
 app.use(notFoundHandler);
