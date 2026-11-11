@@ -206,7 +206,7 @@ const BodegasPage = () => {
       const res = await bodegasApi.registrarEntrada(payload);
       setSuccessBanner(
         res.message ||
-          `Entrada de ${formatNumber(payload.cantidad)} unidades registrada exitosamente.`
+        `Entrada de ${formatNumber(payload.cantidad)} unidades registrada exitosamente.`
       );
       await loadWarehouseData();
     } catch (error) {
@@ -608,11 +608,10 @@ const BodegasPage = () => {
         <button
           type="button"
           onClick={() => setActiveTab('BODEGAS')}
-          className={`px-4 py-2.5 text-xs font-mono font-bold uppercase border-b-2 transition-colors flex items-center gap-2 ${
-            activeTab === 'BODEGAS'
+          className={`px-4 py-2.5 text-xs font-mono font-bold uppercase border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'BODEGAS'
               ? 'border-amber-600 text-slate-900 bg-white'
               : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
+            }`}
         >
           <Warehouse className="w-4 h-4" />
           Existencias por Bodega ({bodegas.length})
@@ -621,11 +620,10 @@ const BodegasPage = () => {
         <button
           type="button"
           onClick={() => setActiveTab('MATERIALES')}
-          className={`px-4 py-2.5 text-xs font-mono font-bold uppercase border-b-2 transition-colors flex items-center gap-2 ${
-            activeTab === 'MATERIALES'
+          className={`px-4 py-2.5 text-xs font-mono font-bold uppercase border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'MATERIALES'
               ? 'border-amber-600 text-slate-900 bg-white'
               : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
+            }`}
         >
           <Package className="w-4 h-4" />
           Catálogo Maestro de Materiales ({materiales.length})
@@ -634,11 +632,10 @@ const BodegasPage = () => {
         <button
           type="button"
           onClick={() => setActiveTab('TRASLADOS')}
-          className={`px-4 py-2.5 text-xs font-mono font-bold uppercase border-b-2 transition-colors flex items-center gap-2 ${
-            activeTab === 'TRASLADOS'
+          className={`px-4 py-2.5 text-xs font-mono font-bold uppercase border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'TRASLADOS'
               ? 'border-amber-600 text-slate-900 bg-white'
               : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
+            }`}
         >
           <ArrowLeftRight className="w-4 h-4" />
           Bitácora de Traslados Multi-sitio ({traslados.length})
@@ -657,37 +654,33 @@ const BodegasPage = () => {
                   key={bod.id}
                   type="button"
                   onClick={() => setSelectedBodegaId(bod.id)}
-                  className={`text-left p-4 rounded-md border transition-all ${
-                    isSelected
+                  className={`text-left p-4 rounded-md border transition-all ${isSelected
                       ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
                       : 'bg-white hover:bg-slate-50 text-slate-900 border-slate-200'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <span
-                      className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${
-                        isSelected
+                      className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${isSelected
                           ? 'bg-amber-500 text-slate-950'
                           : 'bg-slate-100 text-slate-800 border border-slate-300'
-                      }`}
+                        }`}
                     >
                       {bod.codigo}
                     </span>
                     <span
-                      className={`font-mono text-[10px] px-2 py-0.5 rounded ${
-                        bod.tipo === 'CENTRAL'
+                      className={`font-mono text-[10px] px-2 py-0.5 rounded ${bod.tipo === 'CENTRAL'
                           ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30'
                           : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                      }`}
+                        }`}
                     >
                       {bod.tipo}
                     </span>
                   </div>
                   <div className="text-sm font-bold truncate">{bod.nombre}</div>
                   <div
-                    className={`text-[11px] truncate mt-0.5 ${
-                      isSelected ? 'text-slate-300' : 'text-slate-500'
-                    }`}
+                    className={`text-[11px] truncate mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'
+                      }`}
                   >
                     {bod.ubicacion}
                   </div>
