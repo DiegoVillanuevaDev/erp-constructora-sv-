@@ -1,4 +1,4 @@
-# 🏗️ ERP de Gestión Integral — [GitHub](https://github.com/DiegoVillanuevaDev/erp-constructora-sv-) | [Demo Interactiva (`http://localhost:8080`)](http://localhost:8080)
+# 🏗️ ERP de Gestión Integral — [GitHub](https://github.com/DiegoVillanuevaDev/erp-constructora-sv-) | [Demo Interactiva en Vivo](https://terracota-erp.netlify.app)
 
 > **Caso de Negocio:** Sistema de Planificación de Recursos Empresariales (ERP) Full-Stack para **Inmobiliaria y Constructora SV** (*TERRACOTA ERP*), diseñado bajo arquitectura de contenedores con **Node.js, Express, PostgreSQL, Prisma ORM, React 18, Vite, Tailwind CSS y Nginx Reverse Proxy**, cumpliendo de forma estricta con el marco regulatorio, laboral y tributario vigente de **El Salvador**.
 
