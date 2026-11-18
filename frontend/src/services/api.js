@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const FORCE_DEMO_MODE = String(import.meta.env.VITE_DEMO_MODE || '').toLowerCase() === 'true';
 
 export const TOKEN_STORAGE_KEY = 'erp_sv_token';
 export const USER_STORAGE_KEY = 'erp_sv_user';
@@ -90,20 +91,30 @@ const isBackendUnreachable = (error) => {
     return true;
   }
   const { status, data } = error.response;
-  // Cuando Vite proxy no logra conectar a localhost:4000, responde 500/502/503/504 sin errorCode JSON del backend
+  const hasBackendErrorPayload = data && typeof data === 'object' && Boolean(data.errorCode);
+  // Si un hosting estático (Vercel/Netlify) responde 404/405/5xx sin estructura AppError del backend, activamos fallback
   if (status >= 502) return true;
-  if (status === 500 && (!data || typeof data !== 'object' || !data.errorCode)) {
+  if ((status === 404 || status === 405 || status === 500) && !hasBackendErrorPayload) {
     return true;
   }
   return false;
 };
 
-let connectionMode = 'AUTO'; // 'BACKEND_ONLINE' | 'FALLBACK_MEMORIA' | 'AUTO'
+let connectionMode = FORCE_DEMO_MODE ? 'FALLBACK_MEMORIA' : 'AUTO'; // 'BACKEND_ONLINE' | 'FALLBACK_MEMORIA' | 'AUTO'
 export const getConnectionMode = () => connectionMode;
 
 const withResilientFallback = async (apiCall, fallbackFn) => {
+  if (FORCE_DEMO_MODE) {
+    connectionMode = 'FALLBACK_MEMORIA';
+    return fallbackFn();
+  }
   try {
     const response = await apiCall();
+    // Si un servidor estático devolvió HTML (ej. rewrite SPA de Vercel) en lugar de JSON del backend
+    if (!response?.data || typeof response.data !== 'object' || typeof response.data.success !== 'boolean') {
+      connectionMode = 'FALLBACK_MEMORIA';
+      return fallbackFn();
+    }
     connectionMode = 'BACKEND_ONLINE';
     return response.data;
   } catch (error) {
